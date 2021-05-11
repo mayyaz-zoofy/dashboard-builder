@@ -202,6 +202,7 @@ function getData() {
                   {
                     "type": "gLine",
                     "endpoint": "/line-chart",
+                    "priority": 4,
                     "viewAll": {
                       "label": "View All",
                       "link": "http://google.com/",
@@ -246,6 +247,7 @@ function getData() {
                   {
                     "type": "table",
                     "endpoint": "/table-data",
+                    "priority": 2,
                     "viewAll": {
                       "label": "View All",
                       "link": "http://google.com/",
@@ -330,7 +332,8 @@ function getData() {
                   {
                     "type": "pLinear",
                     "label": "Store Profile",
-                    "endpoint": "/linear-progress"
+                    "endpoint": "/linear-progress",
+                    "priority": 5,
                   },
                   {
                     "type": "link",
@@ -351,6 +354,7 @@ function getData() {
                     "title": "STORE: BAD APPLE ORM",
                     "subtitle": "6 August 2018",
                     "endpoint": "/pie-chart",
+                    "priority": 3,
                     "viewAll": {
                       "label": "View All",
                       "link": "http://google.com/",
@@ -392,6 +396,7 @@ function getData() {
                     "title": "STORE: BAD APPLE ORM",
                     "subtitle": "6 August 2018",
                     "endpoint": "/circular-progress",
+                    "priority": 6,
                     "viewAll": {
                       "label": "View All",
                       "link": "http://google.com/",
@@ -435,6 +440,7 @@ function getData() {
               "title": "STORE: BAD APPLE ORM",
               "subtitle": "6 August 2018",
               "endpoint": "/bar-chart",
+              "priority": 7,
               "viewAll": {
                 "label": "View All",
                 "link": "http://google.com/",
@@ -465,7 +471,7 @@ function getData() {
             }
           ]
         }
-        ]
+      ]
     }
   }
 }
