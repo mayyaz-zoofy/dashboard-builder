@@ -1,11 +1,11 @@
-### Getting Started / Instalation
+### Getting Started / Installation
 - This application is built using ReactJS
-- To setup on local clone below repo
+- To setup on local, clone below repo
   [https://github.com/mayyaz-zoofy/dashboard-builder.git](https://github.com/mayyaz-zoofy/dashboard-builder.git "https://github.com/mayyaz-zoofy/dashboard-builder.git")
-- Checkout to code directory and rn `yarn install` or `npm install` to install all dependencies
-- If there occurs any conflicts between global and local package or dependencies are not correctly installed for specific package then run following command
+- Checkout to code directory and run `yarn install` or `npm install` to install all dependencies.
+- If there occurs any conflicts between global and local package or dependencies are not correctly installed for any specific package then run following command
   `npx install-peerdeps --dev {package name}`
-- Lastly after all packages are installed run `yarn start` or `npm start` and have a look at dashboard
+- Finally after all the packages are installed run `yarn start` or `npm start` and have a look at dashboard
 
 
 ### Major Packages
@@ -25,7 +25,7 @@
 
 
 ### Components for Content (Body)
-There are   types of components available right now for creating a dashboard in this application
+There are 13 different types of components available right now for creating a dashboard in this application
 1. Div
 2. Html Content
 3. Stat
