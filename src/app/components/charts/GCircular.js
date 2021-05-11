@@ -4,25 +4,29 @@ import Filters from "../../utils/Filters";
 import ProgressCircular from "../../utils/ProgressCircular";
 import httpClient from "../../../httpClient";
 import MiniLoading from "../../utils/MiniLoading";
+import { conditionalPriorityRendering } from "../../utils/helpers";
 
 function GCircular(props) {
-    const { title, subtitle, endpoint, viewAll, filters } = props;
+    const { title, subtitle, endpoint, viewAll, filters, current, priority, setCurrent } = props;
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
     let filterVals;
 
     useEffect(() => {
-        const updatedFilters = {};
-        if (filters && filters.length) {
-            filters.map(filter => {
-                if (filter.defaultValue) {
-                    updatedFilters[filter.slug] = filter.defaultValue;
-                }
-            });
+        const condition = conditionalPriorityRendering(current, priority);
+        if (loading && condition) {
+            const updatedFilters = {};
+            if (filters && filters.length) {
+                filters.map(filter => {
+                    if (filter.defaultValue) {
+                        updatedFilters[filter.slug] = filter.defaultValue;
+                    }
+                });
+            }
+            filterVals = updatedFilters;
+            fetchFiltersData(updatedFilters);
         }
-        filterVals = updatedFilters;
-        fetchFiltersData(updatedFilters);
-    }, []);
+    });
 
     const fetchFiltersData = () => {
         setLoading(true);
@@ -30,6 +34,7 @@ function GCircular(props) {
             .then(res => {
                 setData(res.data);
                 setLoading(false);
+                setCurrent(priority || 1);
             });
     };
 

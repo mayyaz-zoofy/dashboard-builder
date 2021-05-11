@@ -4,27 +4,32 @@ import { Link } from "@material-ui/core";
 import CustomTable from "../../../utils/table/Table";
 import Badge from "../../../components/Badge";
 import Filters from "../../../utils/Filters";
+import { conditionalPriorityRendering } from "../../../utils/helpers";
+import MiniLoading from "../../../utils/MiniLoading";
 
 export const convertToLink = (value, url) => <Link to={url}>{value}</Link>;
 
 function TableWrapper(props) {
-    const { endpoint, filters, columns, viewAll } = props;
+    const { endpoint, filters, columns, viewAll, current, priority, setCurrent } = props;
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     let filterVals;
 
     useEffect(() => {
-        if (endpoint) {
-            const updatedFilters = {};
-            filters.map(filter => {
-                if (filter.defaultValue) {
-                    updatedFilters[filter.slug] = filter.defaultValue;
-                }
-            });
-            filterVals = updatedFilters;
-            fetchTableData();
+        const condition = conditionalPriorityRendering(current, priority);
+        if (loading && condition) {
+            if (endpoint) {
+                const updatedFilters = {};
+                filters.map(filter => {
+                    if (filter.defaultValue) {
+                        updatedFilters[filter.slug] = filter.defaultValue;
+                    }
+                });
+                filterVals = updatedFilters;
+                fetchTableData();
+            }
         }
-    }, []);
+    });
 
     const fetchTableData = () => {
         setLoading(true);
@@ -32,6 +37,7 @@ function TableWrapper(props) {
             .then(res => {
                 setData(res.data);
                 setLoading(false);
+                setCurrent(priority || 1)
             });
     }
 
@@ -78,6 +84,10 @@ function TableWrapper(props) {
     const renderFilters = () => {
         return <Filters filters={filters} handleChange={handleFilterChange} />
     };
+
+    if (loading) {
+        return <MiniLoading />;
+    }
 
     return (
         <div className="w-full">

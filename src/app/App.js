@@ -1,7 +1,8 @@
 import { BrowserRouter } from 'react-router-dom';
-import AppContext from './AppContext';
+import AppContext from './contexts/AppContext';
 import routes from '../configs/routes';
 import Root from "./Root";
+import React from "react";
 
 function App() {
   return (

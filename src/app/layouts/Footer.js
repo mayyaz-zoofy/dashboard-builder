@@ -23,8 +23,8 @@ export default function Footer(props) {
         if (links && links.length) {
             return (
                 <div className="flex">
-                    {links.map(link => (
-                        <Tooltip title={link.tooltip}>
+                    {links.map((link, index) => (
+                        <Tooltip key={index} title={link.tooltip}>
                             <Link className="mx-3" href={link.link} target={link.newTab ? '_blank' : ''}>
                                 <img src={link.icon} width={40} />
                             </Link>

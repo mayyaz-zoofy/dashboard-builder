@@ -21,9 +21,7 @@ export default class PrioritySuspense extends React.Component{
     }
 
     componentDidMount() {
-        // console.log('next1', this.props.index, this.state.loading)
         if (!this.state.loading) {
-            console.log('mount', this.props.item.type)
             this.props.setCurrent(this.props.priority || 1);
         }
     }

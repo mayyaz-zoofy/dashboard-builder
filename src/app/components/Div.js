@@ -1,7 +1,18 @@
 import { Divider, Paper, Typography } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { conditionalPriorityRendering } from "../utils/helpers";
 
 function Div(props) {
-    const { width, isCard, children, className, title } = props;
+    const { width, isCard, children, className, title, current, priority, setCurrent } = props;
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const condition = conditionalPriorityRendering(current, priority);
+        if (loading && condition) {
+            setLoading(false);
+            setCurrent(priority || 1);
+        }
+    });
 
     const renderTitle = () => {
         if (title && title.length) {
@@ -14,6 +25,10 @@ function Div(props) {
         }
     }
 
+    if (loading) {
+        return <div className="w-full" />;
+    }
+
     if (isCard) {
         return (
             <div className="w-full p-3">
@@ -21,7 +36,7 @@ function Div(props) {
                     className={`w-${width && width != "1" ? width : 'full'} p-2 shadow rounded-lg ${className || ''}`}
                 >
                     {renderTitle()}
-                    {props.children}
+                    {children}
                 </Paper>
             </div>
         )
@@ -29,7 +44,7 @@ function Div(props) {
     return (
         <div className={`w-${width && width != "1" ? width : 'full'}  ${className || ''}`}>
             {renderTitle()}
-            {props.children}
+            {children}
         </div>
     );
 }

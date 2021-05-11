@@ -17,23 +17,6 @@ import GLineWrapper from "../../components/charts/GLine";
 import GPieWrapper from "../../components/charts/GPie";
 import GBarWrapper from "../../components/charts/GBar";
 import GCircular from "../../components/charts/GCircular";
-import PrioritySuspense from "../../utils/PrioritySuspense";
-
-const options = [
-    {
-        "label": "Last week",
-        "value": "week"
-    },
-    {
-        "label": "Last two weeks",
-        "value": "fortnight"
-    },
-    {
-        "label": "Last month",
-        "value": "month"
-    }
-];
-
 let priorities = {1: 0};
 
 function Dashboard() {
@@ -42,7 +25,6 @@ function Dashboard() {
     const params = useParams();
     const history = useHistory();
     const [priority, setPriority] = useState(0);
-    // const [priorities, setPriorities] = useState({1: 0});
 
     const setPriorities = (val) => {
         priorities = val;
@@ -72,7 +54,6 @@ function Dashboard() {
             .then(res => {
                 const initiatorData = res.data;
                 const newPriorities = getPriorityList(initiatorData.content.body);
-                console.log('das', {...newPriorities});
                 if (newPriorities[0]) {
                     setPriority(newPriorities[0]);
                 } else {
@@ -86,8 +67,7 @@ function Dashboard() {
             })
     }, [params.id]);
 
-    const updatePriorities = (key) => {
-        console.log('updatePriorities', priorities);
+    const updatePriorities = (key, item) => {
         const newPriorities = {
             ...priorities
         };
@@ -97,32 +77,20 @@ function Dashboard() {
                 const keys = Object.keys(newPriorities);
                 const index = keys.indexOf(key.toString());
                 if (keys[index + 1]) {
-                    console.log('should', parseInt(keys[index + 1]));
                     setPriority(parseInt(keys[index + 1]));
                 }
             }
             setPriorities(newPriorities);
-            console.log('new priorities', { ...newPriorities })
         }
     }
 
     const renderItems = (items) => {
-        return items.map((item, index) => (
-                <PrioritySuspense
-                    key={index}
-                    index={index}
-                    current={priority}
-                    priority={item.priority}
-                    setCurrent={updatePriorities}
-                    item={item}
-                >
-                    {renderItem(item)}
-                </PrioritySuspense>
-            )
-        );
+        return items.map(item => renderItem(item));
     }
 
     const renderItem = (item) => {
+        item.current = priority;
+        item.setCurrent = updatePriorities;
         switch (item.type) {
             case 'div':
                 let children = '';
@@ -131,7 +99,7 @@ function Dashboard() {
                 }
                 return <Div { ...item }>{children}</Div>;
             case 'html':
-                return <HtmlContent content={item.content} />;
+                return <HtmlContent { ...item } />;
             case 'stat':
                 return <Stat { ...item } />
             case 'gLine':
@@ -162,8 +130,7 @@ function Dashboard() {
 
     const renderBody = () => {
         if (!initiator.content || !initiator.content.body) {
-            history.push('/errors-404')
-            console.error("Content of body cannot be empty");
+            history.push('/errors-404');
             return '';
         }
         const { body } = initiator.content;

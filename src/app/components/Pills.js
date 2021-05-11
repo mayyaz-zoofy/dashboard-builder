@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Chip } from "@material-ui/core";
 import PropTypes from "prop-types";
+import { conditionalPriorityRendering } from "../utils/helpers";
 
 function Pills(props) {
-    const { defaultValue, options, handleChange } = props;
+    const { defaultValue, options, handleChange, current, priority, setCurrent } = props;
     const [value, setValue] = useState(defaultValue);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const condition = conditionalPriorityRendering(current, priority);
+        if (loading && condition) {
+            setLoading(false);
+            setCurrent(priority || 1);
+        }
+    });
 
     const localHandleChange = (val) => {
         setValue(val);
@@ -26,6 +36,10 @@ function Pills(props) {
             )
         });
     };
+
+    if (loading) {
+        return <div className="w-full" />;
+    }
 
     return (
         <div className="flex p-1">

@@ -9,8 +9,6 @@ export default function httpClient(endpoint, body) {
                 }).catch(err => {
                     reject(err);
                 })
-        }, 2000);
+        }, Math.floor(Math.random() * 101) + 800);
     })
 }
-
-// Math.floor(Math.random() * 101) + 400

@@ -46,7 +46,7 @@ function Filters(props) {
     return (
         <div className="flex">
             {filters.map(filter => (
-                <div className="px-4">
+                <div key={filter.type} className="px-4">
                     {renderFilter(filter)}
                 </div>
 
